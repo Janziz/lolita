@@ -10,15 +10,24 @@ class MetaData < Cms::Base
   end
   
   def self.by_metaable id,class_name
-    conditions=["metaable_type=? ",class_name.to_s.camelize]
+    conditions=["(metaable_type=? ",class_name.to_s.camelize]
     if id.is_a?(Integer)
-      conditions[0]<<"AND metaable_id=? "
+      conditions[0]<<"AND metaable_id=? )"
       conditions<<id
     elsif id.is_a?(String)
-      conditions[0]<<"AND #{self.table_name}.url=? "
+      conditions[0]<<"AND #{self.table_name}.url=? )"
       conditions<<id
+      if Lolita.config.i18n[:translation]
+        #TODO this is an inneficient way of managing translated url's because text column in globalizes translations table is not indexed
+        tr_id = Globalize::ModelTranslation.find(:first, :conditions=>["table_name=? AND facet=? AND text=?", "meta_datas","url", id])
+        tr_id = tr_id.item_id if tr_id
+        if tr_id
+          conditions[0]<<"OR (#{self.table_name}.id=?) "
+          conditions<<tr_id
+        end
+      end
     else
-      conditions[0]<<"AND metaable_id IS NULL "
+      conditions[0]<<"AND metaable_id IS NULL )"
     end
     self.find(:first,:conditions=>conditions)
   end

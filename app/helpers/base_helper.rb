@@ -406,6 +406,10 @@ def language_menu
   langs = Admin::Language.find_additional_languages
   current=Globalize::Locale.language_code.upcase
   langs.unshift(base)
+  #TODO find a more efficient way to find translations for urls
+  if params[:controller] && params[:id]
+    md = MetaData.by_metaable(params[:id],params[:controller])
+  end
   langs.each {|lang|
     url= { :locale=>lang.short_name}
     params.each{|key,value|
@@ -413,6 +417,7 @@ def language_menu
         url[key]=value
       end
     }
+    url[:id] = md.switch_language(lang.short_name)[:url] if md
     yield link_to(lang.short_name.upcase,url,{:class=>current==lang.short_name.upcase ? "active" : ""})
   }
 end
