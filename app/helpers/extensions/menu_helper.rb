@@ -44,13 +44,13 @@ module Extensions::MenuHelper
     end
     menu_items
   end
-  
+
   def get_menu_editors(id,namespace,object,menu_id)
     if Admin::Menu.exists?(menu_id)
       menu=Admin::Menu.find(menu_id)
       menu_type=menu.menu_type
     end
-    menu_item=Admin::MenuItem.find_by_id(id) 
+    menu_item=Admin::MenuItem.find_by_id(id)
     case menu_type
     when 'app',menu.menu_name=='admin'
       admin_menu_select menu_item,namespace,menu_id
@@ -64,7 +64,7 @@ module Extensions::MenuHelper
   def menu_select_name namespace, method="table"
     namespace ?  "object[#{namespace}][#{method}]" : "object[#{method}]"
   end
-  
+
   def admin_menu_select menu_item,namespace,menu_id
     #action_name=namespace ?  "object[#{namespace}][action]" : "object[action]"
     if menu_item && menu_item.menuable_type=='Admin::Action'
@@ -74,12 +74,7 @@ module Extensions::MenuHelper
     if current_table
       begin
         controller="#{current_table}_controller".camelize.constantize
-        allowed_actions=controller.default_actions+controller.system_actions
-        allowed_actions.collect!{|action|
-          name=action.first.is_a?(Symbol) ? t(action.first) : action.first
-          name=name.to_s.size>0 ? name : nil
-          [name || action.last.to_s.humanize, action.last]
-        }
+        allowed_actions=Admin::Action.actions_for_controller controller.name.underscore.gsub("_",'/').gsub('/controller','')
       rescue
         allowed_actions=[[t(:"fields.not selected"),-1]]
       end
@@ -100,14 +95,7 @@ module Extensions::MenuHelper
       current=if menu_item.menuable_type=="Admin::Action"
         action_obj=Admin::Action.find_by_id(menu_item.menuable_id)
         if action_obj && action_obj.controller
-          controller="#{action_obj.controller}_controller".camelize.constantize
-          action=action_obj.action
-          current_model=action_obj.controller
-          allowed_actions=controller.public_actions.collect!{|a|
-            name=a.first.is_a?(Symbol) ? t(a.first) : a.first
-            name=name.to_s.size>0 ? name : nil
-            [name || a.last.to_s.humanize, a.last]
-          }
+          allowed_actions=Admin::Action.actions_for_controller action_obj.controller
         end
         0
       elsif menu_item.menuable_type=="Url"
@@ -135,7 +123,7 @@ module Extensions::MenuHelper
     #    incl=[['Sākums','home']]
     #    select_tag(menu_select_name(namespace),options_for_select(get_tables_for_menu(menu_id,{:simple=>true,:include=>incl}),current_table),:class=>"select")
   end
-  
+
   # If block given return struct Object else returns Array
   # Input:
   #   name - branch_name
@@ -170,7 +158,7 @@ module Extensions::MenuHelper
     end if root_item && root_item.children
     items unless block_given?
   end
-  
+
   def menu_splitter
     '<span >|&nbsp;</span>'
   end

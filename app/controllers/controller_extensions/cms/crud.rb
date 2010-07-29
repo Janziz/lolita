@@ -247,7 +247,7 @@ module ControllerExtensions
         }
         # set date and datetime values
         date_times.each{|attr,values|
-          periods=values.sort.collect{|pair| pair.last.to_i}
+          periods=values.sort.collect{|pair| pair.last}
           obj.send(:"#{attr}=",Time.local(*periods))
         }
         obj

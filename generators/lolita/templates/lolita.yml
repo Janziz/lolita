@@ -1,7 +1,7 @@
 common: &default_settings
   system:
     domain: localhost
-    start_page_url: /admin/user/list
+    start_page_url: /admin/users/list
     cms_name: Lolita CMS
     cms_title: Lolita CMS
     domain_depth: 0

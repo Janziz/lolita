@@ -47,9 +47,8 @@ class Admin::UserController < Managed
   # ====Deprecated
   # Any system user can edit their own password. This method allow to do that.
   def edit_self
-    if session[:user] && session[:user].is_a?(Admin::SystemUser) && session[:user].is_real_user?
-      @user=Admin::SystemUser.find_by_id(params[:id])
-      if @user && @user==session[:user] 
+    if logged_in? && current_user.is_a?(Admin::SystemUser)
+      if @user=Admin::SystemUser.find_by_id(params[:id])
         if request.post? 
           if params[:user][:old_pass]  && @user.authenticated?(params[:user][:old_pass])
             params[:user].delete(:old_pass)
@@ -122,7 +121,7 @@ class Admin::UserController < Managed
       if request.xhr?
         render :partial=>'admin/role/tabs', :locals=>{:role=>@role,:active_tab=>:users,:active_role=>@role}
       else
-        redirect_to list_role_url(@role.id,:tab=>:users)
+        redirect_to list_admin_role_url(@role.id,:tab=>:users)
       end
     else
       request.xhr? ? render(:nothing=>true) : redirect_to(login_users)

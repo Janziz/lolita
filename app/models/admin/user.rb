@@ -41,6 +41,7 @@ class Admin::User < Cms::Base
   attr_accessor :password
   # Shortstand for old password, thas is used when password is changed.
   attr_accessor :old_password
+  attr_accessor :password_confirmation
   attr_reader  :is_admin
   # All users has many roles.
   has_and_belongs_to_many :roles, :class_name=>"Admin::Role"
@@ -456,7 +457,7 @@ class Admin::User < Cms::Base
   #                    Useful, for example, when need to authenticate public users, that have different classes.
   def self.user_class_types(allowed_classes=:none)
     if allowed_classes.is_a?(Array)
-      allowed_classes.collect{|c| c.to_s}
+      allowed_classes.collect{|c| c.to_s unless c.is_a?(String)}
     elsif allowed_classes==:all
       self.find_by_sql("SELECT type FROM #{table_name} GROUP BY type").collect{|u| u["type"]}
     else

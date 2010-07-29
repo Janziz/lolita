@@ -24,13 +24,13 @@ module Extensions::AdministrationHelper
       list_role_path(object.id)
     else
       if object.type=="Admin::SystemUser"
-        list_user_path(object.id)
+        list_admin_users_path(object.id)
       else
         contr="#{object.type}Controller".constantize rescue nil
         if contr
           url_for(:controller=>object.type.underscore,:action=>:list,:id=>object.id)
         else
-          list_user_path(object.id)
+          list_admin_users_path(object.id)
         end
       end
     end
@@ -49,7 +49,7 @@ module Extensions::AdministrationHelper
               id="#{id}#{action}"
               class="admin-new-button"
               type="checkbox" #{permissions[action.to_sym] ? "checked='checked'" : ''}
-              onchange="Administration.change_access_permissions(this,'#{change_role_access_path(:role_id=>role.id,:id=>access.id)}','#{action}')"
+              onchange="Administration.change_access_permissions(this,'#{change_admin_access_path(:role_id=>role.id,:id=>access.id)}','#{action}')"
             />^
     }
   end

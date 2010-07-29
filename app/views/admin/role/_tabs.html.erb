@@ -1,12 +1,12 @@
 <% active_role||=nil  %>
 <div class="role-tab">
-  <%= link_to t(".users"),role_users_url(role.id),
+  <%= link_to t(".users"),admin_role_users_path(role.id),
     :onclick=>"return Administration.switch_role_tabs(this,#{role.id})",
     :class=>active_tab==:users ? "current-role-tab" : "other-role-tab"
 %>
 </div>
 <div class="role-tab">
-  <%= link_to t(".accesses"), role_accesses_url(role.id),
+  <%= link_to t(".accesses"), admin_role_accesses_path(role.id),
     :onclick=>"return Administration.switch_role_tabs(this,#{role.id})",
     :class=>active_tab==:accesses ? "current-role-tab" : "other-role-tab"
 %>

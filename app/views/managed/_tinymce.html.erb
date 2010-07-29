@@ -43,7 +43,7 @@
           if(!YAHOO.content_map.map.visible){
             $("#content_map_container").html(ITH.Translation.wait_dialog_header);
             $.ajax({
-              url:'/admin/menu/content_map',
+              url:'/<%= content_map_admin_menus_path %>',
               data:"namespace=Admin", // Valdis: atsakamies no menu dalījuma pa namespace =params[:controller].split("/").first
               complete:function(data){$("#content_map_container").html(data)}
             })

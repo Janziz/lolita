@@ -20,7 +20,7 @@
     <td>
       <input class="admin-new-button"
              type="checkbox" <%= change_main_relations(role,access) %>
-             onchange="Administration.toggle_permissions(this,<%=access.id%>,<%=role.id%>,'<%=add_role_access_path(:role_id=>role.id,:id=>access.id)%>','<%= remove_role_access_path(:role_id=>role.id,:id=>access.id) %>')"
+             onchange="Administration.toggle_permissions(this,<%=access.id%>,<%=role.id%>,'<%=add_admin_access_path(:role_id=>role.id,:id=>access.id)%>','<%= remove_admin_access_path(:role_id=>role.id,:id=>access.id) %>')"
       />
     </td>
     <% change_action_relations role,access do |element|%>

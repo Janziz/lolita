@@ -1,6 +1,6 @@
 <div class="fr small mtb">
-  <%= raw user_link%> |
-  <%= link_to t('.logout'), :controller => '/admin/user', :action=> 'logout' %>
+  <%= link_to current_user.email, edit_self_admin_user_path(current_user) if logged_in? %> |
+  <%= link_to t('.logout'), admin_logout_path %>
 </div>
 <br class="clear" />
 <div class="topmenu">
@@ -10,5 +10,5 @@
   <div class="fr sections">
    
   </div>
-</div><!--[if !IE]>topmenu<![endif]-->
+</div>
 <br class="clear" />

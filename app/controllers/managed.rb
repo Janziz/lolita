@@ -141,7 +141,7 @@ class Managed < ApplicationController
 
   # Return _object_ class name.
   def object
-    @config[:object_class]
+    @config[:object] ? @config[:object].constantize : @config[:object_class]
   end
 
   # Return Hash of template name and layout.

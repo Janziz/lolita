@@ -61,7 +61,7 @@ module Extensions::JavaScriptHelper
   def get_actions_js container,menu_item_id,public=false
     %!
       simple_yui_request(this,{
-        url:'/admin/menu_item/controller_actions',
+        url:'#{controller_actions_admin_menu_items_path}',
         container:'#{container}',
         method:'POST',
         params:{

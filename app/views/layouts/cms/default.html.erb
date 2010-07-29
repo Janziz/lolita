@@ -2,9 +2,9 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"/>
-    <meta HTTP-EQUIV="EXPIRES" CONTENT="01 Jan 1970 00:00:00 GMT"/>
-    <meta HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="EXPIRES" content="01 Jan 1970 00:00:00 GMT"/>
+    <meta name="author" content="IT House" />
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
     <title><%=Lolita.config.system(:cms_title)%></title>
@@ -30,7 +30,21 @@
     <%= javascript_include_tag '/lolita/javascripts/jquery/jquery-1.3.2.min.js' %>
     <%= javascript_include_tag '/lolita/javascripts/swfobject.js' %>
     <%= javascript_include_tag '/lolita/javascripts/jquery/jquery.uploadify.v2.1.0.js' %>
-    
+    <script type="text/javascript">
+      // routes to use in JS
+      ITH.urls = {
+        init_translations_admin_menus_path: '<%= init_translations_admin_menus_path %>',
+        init_menus_admin_menus_path: '<%= init_menus_admin_menus_path %>',
+        add_content_admin_menus_path: '<%= add_content_admin_menus_path %>',
+        remove_content_admin_menus_path: '<%= remove_content_admin_menus_path %>',
+        get_updated_items_admin_menus_path: '<%= get_updated_items_admin_menus_path %>',
+        toggle_published_admin_menus_path: '<%= toggle_published_admin_menus_path %>',
+        refresh_admin_menus_path: '<%= refresh_admin_menus_path %>',
+        save_full_tree_admin_menus_path: '<%= save_full_tree_admin_menus_path %>',
+        admin_menu_items_path: '<%= admin_menu_items_path %>',
+        new_admin_menu_item_path: '<%= new_admin_menu_item_path %>'
+      };
+    </script>    
 
     <%= javascript_include_tag '/lolita/javascripts/jquery/mbContainer1.0.1/ui.core.min.js' %>
     <%= javascript_include_tag '/lolita/javascripts/jquery/mbContainer1.0.1/ui.draggable.min.js' %>
@@ -47,9 +61,6 @@
     <%= javascript_include_tag '/lolita/javascripts/yui/build/autocomplete/autocomplete-min.js' %>
     <%= javascript_include_tag '/lolita/javascripts/yui/build/animation/animation-min.js' %>
     <%= javascript_include_tag '/lolita/javascripts/yui/build/container/container-min.js' %>
-    <%#= javascript_include_tag '/lolita/javascripts/yui/build/menu/menu-min.js' %>
-
-    <%#= javascript_include_tag '/lolita/javascripts/yui/build/element/element-beta-min.js' %>
     <%= javascript_include_tag '/lolita/javascripts/cms/dom_load.js' %>
     <%= javascript_include_tag '/lolita/javascripts/cms/object_functions.js' %>
     <%= javascript_include_tag '/lolita/javascripts/cms/simple_functions.js' %>
@@ -60,10 +71,7 @@
     <%= javascript_include_tag '/lolita/javascripts/application.js' %>
     <%= javascript_include_tag '/lolita/javascripts/filter.js' %>
     <%= javascript_include_tag '/lolita/javascripts/tiny_mce/tiny_mce.js' %>
-    <%#= javascript_include_tag '/lolita/javascripts/ufo' %>
     <%= include_google_map_js %>
-    <%#= raw("<script type=\"text/javascript\" src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=#{Lolita.config.google :maps, :api_key, request.domain.to_sym}\"></script>") if Lolita.config.google(:maps, :api_key, request.domain.to_sym) %>
-    <%#= javascript_include_tag '/lolita/javascripts/highslide/highslide-with-html' %>
   </head>
   <body class=" yui-skin-sam">
     <div id="dynamic_notice" style="display:none;position:fixed;border:1px solid gray;border-top:none;background-color:yellow;width:250px;"></div>
@@ -78,10 +86,6 @@
     </div>
     <%= render :partial=>"cms/dialogs" %>
     <div id="script"></div>
-    <script type="text/javascript">
-      //ITH.MenuTree.namespace="Admin"
-      ITH.locale="<%=params[:locale] || Admin::Language.find_base_language.short_name%>"
-    </script>
     <% session[:locale]=params[:locale] || Admin::Language.find_base_language.short_name %>
   </body>
 </html>

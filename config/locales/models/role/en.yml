@@ -1,0 +1,6 @@
+en:
+  admin:
+    role:
+      tabs:
+        users: Users
+        accesses: Accesses
